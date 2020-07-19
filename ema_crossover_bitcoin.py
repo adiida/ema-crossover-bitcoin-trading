@@ -3,7 +3,7 @@ import time
 from cexapi import API
 
 
-def buy_bitcoin(bitcoin_amount, last_price):
+def buy_bitcoin(bitcoin_amount, last_price, access_api):
     """Get last bids and asks (buying/selling prices)
     based on last prices we make our price a little
     bigger than last price (makers pay lower fees,
@@ -40,7 +40,7 @@ def buy_bitcoin(bitcoin_amount, last_price):
     return (False, 0.0)
 
 
-def sell_bitcoin(bitcoin_amount, last_price):
+def sell_bitcoin(bitcoin_amount, last_price, access_api):
     """Get last bids and asks (buying/selling prices)
     based on last prices we make our price a little
     lower than last price (makers pay lower fees,
@@ -125,7 +125,7 @@ def main():
             if not buy and (df.iloc[-1, 1] < df.iloc[-1, 2]):
                 print('Buying bitcoin')
                 # tuple(bool: bought or not, buy price)
-                buy_status_tuple = buy_bitcoin(bitcoin_amount, df.iloc[-1, 0])
+                buy_status_tuple = buy_bitcoin(bitcoin_amount, df.iloc[-1, 0], access_api)
                 if buy_status_tuple[0]:
                     buy = True
 
@@ -133,7 +133,7 @@ def main():
             elif buy and (df.iloc[-1, 1] > df.iloc[-1, 2]):
                 print('Selling bitcoin')
                 # tuple(bool: sold or not, sell price)
-                sell_status_tuple = sell_bitcoin(bitcoin_amount, df.iloc[-1, 0])
+                sell_status_tuple = sell_bitcoin(bitcoin_amount, df.iloc[-1, 0], access_api)
                 if sell_status_tuple[0]:
                     buy = False
         time.sleep(1)
